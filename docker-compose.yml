@@ -1,0 +1,24 @@
+services:
+
+    mariadb:
+        image: mariadb:latest
+        container_name: mariadb
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mariadb/data:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-allowed-packet=10G --innodb-log-file-size=2G --innodb_flush_log_at_trx_commit=2
+        environment:
+            TZ: Asia/Taipei
+            MARIADB_ROOT_PASSWORD: "Password1234"
+
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin
+        restart: always
+        ports:
+            - "8080:80"
+        environment:
+            - PMA_HOST=mariadb
+            - UPLOAD_LIMIT=10G
